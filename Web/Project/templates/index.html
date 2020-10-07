@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lymphedema prediction prototype</title>
+	<style>
+	body, html {
+  	height: 100%;
+  	margin: 0;
+
+	}
+
+	h1 {
+	background:yellow;
+	text-align: center;
+	font-size: 40px;
+	}
+	h2{
+	text-align: center;
+	font-size: 30px;
+	}
+	h3{
+	margin-left: 100px;
+	font-size: 25px;
+	}
+	h4{
+	margin-left: 100px;
+	font-size: 20px;
+	}
+	p{
+	margin-left: 100px;
+	font-size: 17px;
+	}
+	label{
+	margin-left: 100px;
+	font-size: 15px;
+	}
+	label.radio{
+	margin-left: 0px;
+	font-size: 15px;
+	}
+	a{
+	margin-left: 100px;
+	font-size: 17px;
+	}
+
+
+
+	* {box-sizing: border-box}
+	/* Style tab links */
+	.tablink {
+	  background-color: #555;
+	  color: white;
+	  float: left;
+	  border: none;
+	  outline: none;
+	  cursor: pointer;
+	  padding: 14px 16px;
+	  font-size: 17px;
+	  width: 50%;
+	}
+	.tabcontent {
+	  color: black;
+	  display: none;
+	  padding: 100px 20px;
+	  height: 100%;
+	}
+	.tablink:hover {
+  		background-color: #777;
+	}
+	.wrapper {
+    text-align: center;
+	}
+	.submit{
+	margin:auto;
+  	display:block;
+	font-size: 20px;
+	padding: 14px 16px;
+	color: white;
+  	background-color: #00D12C;
+	}
+	</style>
+</head>
+
+<body>
+
+	<button class="tablink" onclick="openPage('Intro')" id="defaultOpen">Introduction</button>
+	<button class="tablink" onclick="openPage('Submission')">Predictor</button>
+
+
+	<div id="Intro" class="tabcontent">
+		<h1>Lymphedema prototype</h1>
+		<h3>What is Lymphedema?</h3>
+		<p>placeholder description</p>
+		<a href="https://www.mayoclinic.org/diseases-conditions/lymphedema/symptoms-causes/syc-20374682#:~:text=Lymphedema%20refers%20to%20swelling%20that,a%20part%20of%20cancer%20treatment.">Learn more about lymphedema here</a>
+		<h3>About our project</h3>
+		<p>The aim of our project is to use machine learning to help detect lymphedema based on given symptoms.</p>
+
+	</div>
+
+	<div id="Submission" class="tabcontent" style="display:none">
+		<h1>Lymphedema prediction page prototype</h1>
+
+		<!--<a href="./index">Back to main page</a>-->
+		<form action="/prediction" method="POST">
+			<h4>Enter the necessary informations below</h4>
+			<label for="age">Enter your age: </label>
+			<input type="number" name="age" id="age">
+			<br>
+			<br>
+			<label for="bmi">Enter your bmi: </label>
+			<input type="number" name="bmi" id="bmi">
+			<br>
+			<br>
+			<label for="symptom_1">To what degree are you experiencing symptom 1?</label>
+			<input type="radio" id="1" name="symptom_1" value="1">
+			<label for="1" class="radio">1</label>
+			<input type="radio" id="2" name="symptom_1" value="2">
+			<label for="2" class="radio">2</label>
+			<input type="radio" id="3" name="symptom_1" value="3">
+			<label for="3" class="radio">3</label>
+			<br>
+			<br>
+			<label for="other">Are you experiencing any of these other symptoms?</label>
+			<select id="other" name="other">
+				<option value="none">None</option>
+				<option value="option1">Option 1</option>
+				<option value="option2">Option 2</option>
+				<option value="option3">Option 3</option>
+
+			</select>
+
+			<br>
+			<button type="submit" class="submit">Submit</button>
+
+		</form>
+
+		<br>
+		<p>Your age (test return) : {{age}}</p>
+
+	</div>
+
+	<script>
+		function openPage(pageName,elmnt,color) {
+		  var i, tabcontent, tablinks;
+		  tabcontent = document.getElementsByClassName("tabcontent");
+		  for (i = 0; i < tabcontent.length; i++) {
+			tabcontent[i].style.display = "none";
+		  }
+		  tablinks = document.getElementsByClassName("tablink");
+		  for (i = 0; i < tablinks.length; i++) {
+			tablinks[i].style.backgroundColor = "";
+		  }
+		  document.getElementById(pageName).style.display = "block";
+
+		}
+		// Get the element with id="defaultOpen" and click on it
+		document.getElementById("defaultOpen").click();
+	</script>
+</body>
+</html>
