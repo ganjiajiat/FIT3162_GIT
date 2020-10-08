@@ -3,13 +3,6 @@ import pandas as pd
 
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split, RepeatedStratifiedKFold
-from sklearn.pipeline import make_pipeline
-
-from sklearn.decomposition import PCA
-
-from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.svm import SVC
 
 class Experiment:
     def __init__(self, prelearn_processor_names, prelearn_processors, model_learner_names, model_learners, x, y, num_cv_folds=5, num_exp_iter=50):
