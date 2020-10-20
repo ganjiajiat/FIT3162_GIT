@@ -1,7 +1,6 @@
 # Import library
 import pandas as pd
 import numpy as np
-from sklearn.impute import KNNImputer
 from sklearn.svm import SVC
 from sklearn.model_selection import RepeatedStratifiedKFold
 from sklearn.metrics import confusion_matrix
@@ -31,14 +30,9 @@ bcrl_study_data = pd.read_csv("BCRL Study UPM_Monash Uni.csv")
 # Data imputation
 bcrl_study_data['BC receptor'].replace(3,np.NaN, inplace = True)
 bcrl_study_data['Number of lymph nodes removed'].replace(3,np.NaN, inplace = True)
-bcrl_study_data = bcrl_study_data.drop(["ID"], axis=1)
-scaler = MinMaxScaler()
-bcrl_study_data = pd.DataFrame(scaler.fit_transform(bcrl_study_data), columns = bcrl_study_data.columns)
-imputer = KNNImputer(n_neighbors=5)
-bcrl_study_data = pd.DataFrame(imputer.fit_transform(bcrl_study_data),columns = bcrl_study_data.columns)
 
-# for feature in bcrl_study_data.columns.tolist():
-#     bcrl_study_data[feature].fillna(bcrl_study_data[feature].mode()[0], inplace=True)
+for feature in bcrl_study_data.columns.tolist():
+    bcrl_study_data[feature].fillna(bcrl_study_data[feature].mode()[0], inplace=True)
 
 bcrl_x = bcrl_study_data.drop(["Group"], axis=1)
 bcrl_y = bcrl_study_data[["Group"]]
@@ -49,7 +43,7 @@ metrics_format_str = "\n[{0}]\nAccuracy: {1}\nSensitivity: {2}\nSpecificity: {3}
 
 for method_name, clf in zip(method_names, classifiers):
     accu, sens, spec = run_experiment(bcrl_x,bcrl_y, clf)
-    print("Test 1: Filling null columns with kNN.")
+    print("Test 1: Filling null columns with mode.")
     print(metrics_format_str.format(method_name, accu, sens, spec))
 
 # Drop Unrelated Columns and choose important features using chi squared method
