@@ -12,18 +12,26 @@ def root():
 @app.route("/prediction", methods=["GET","POST"])
 def prediction():
     req = request.form
-    print(req)
+    #print(req)
     #age = int(request.form.get("age"))
     #print(age)
     for key in req.keys():
         data = key
-    print(data)
+    #print(data)
     data_dic = json.loads(data)
-    print(data_dic.keys())
+    #print(data_dic.keys())
 
     bmi = data_dic['bmi'] #how to retreive value
-    print('val1',bmi)
-    result=str(dummy_calculation(bmi)) #
+    waist_to_hip_ratio = data_dic['waist_hip_ratio']
+    bc_receptor = data_dic['bc_receptor']
+    types_of_surgery = data_dic['surgery_type']
+    num_lymph_nodes_removed = data_dic['lymph_removed']
+    dash_score = data_dic['dash_score']
+    ss2 = data_dic['ss2_hardness']
+
+    #print('val1',bmi)
+    #result=str(dummy_calculation(bmi))
+    result=str(calculation(bmi, waist_to_hip_ratio, bc_receptor, types_of_surgery, num_lymph_nodes_removed, ss2, dash_score))
     #return render_template('index.html',age=result)
 
     resp_dic = {'result': result, 'msg': 'result performed'}
