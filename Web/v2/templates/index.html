@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lymphedema prediction prototype</title>
+	<style>
+	body, html {
+  	height: 100%;
+  	margin: 0;
+
+	}
+
+	h1 {
+	background:yellow;
+	text-align: center;
+	font-size: 40px;
+	}
+	h2{
+	text-align: center;
+	font-size: 30px;
+	}
+	h3{
+	margin-left: 200px;
+	font-size: 25px;
+	}
+	h4{
+	margin-left: 200px;
+	font-size: 20px;
+	}
+	p{
+	margin-left: 200px;
+	margin-right: 150px;
+	font-size: 18px;
+	}
+	label{
+	margin-left: 200px;
+	font-size: 18px;
+	}
+	label.radio{
+	margin-left: 0px;
+	font-size: 18px;
+	}
+	a{
+	margin-left: 200px;
+	font-size: 18px;
+	}
+
+
+	* {box-sizing: border-box}
+	/* Style tab links */
+	.tablink {
+	  background-color: #555;
+	  color: white;
+	  float: left;
+	  border: none;
+	  outline: none;
+	  cursor: pointer;
+	  padding: 14px 16px;
+	  font-size: 17px;
+	  width: 50%;
+	}
+	.tabcontent {
+	  color: black;
+	  display: none;
+	  padding: 100px 20px;
+	  height: 100%;
+	}
+	.tablink:hover {
+  		background-color: #777;
+	}
+	.wrapper {
+    text-align: center;
+	}
+	.submit{
+	margin:auto;
+  	display:block;
+  	border: none;
+	font-size: 20px;
+	padding: 14px 16px;
+	color: white;
+	background-color: #01C82A;
+
+	}
+	.submit:hover {
+  		background-color: #04BF2B;
+	}
+	</style>
+
+	<script
+			src="https://code.jquery.com/jquery-3.2.1.js"
+			integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+			crossorigin="anonymous">
+	</script>
+	<script type="text/javascript">
+		var server = "http://127.0.0.1:5001";
+		var to_send = {'bmi':0,'waist_hip_ratio':0,'lymph_removed':0,'dash_score':0,'bc_receptor':0,'surgery_type':0,'ss2_hardness':0};
+		function update_var()
+		{
+			var f1 = parseFloat($("#waist_hip_ratio").val());
+			var f2 = parseFloat($("#bmi").val());
+			var f3 = parseFloat($("#lymph_removed").val());
+			var f4 = parseFloat($("#dash_score").val());
+			var f5 = parseFloat($("#bc_receptor").val());
+			var f6 = parseFloat($("#surgery_type").val());
+			var f7 = parseFloat($("#ss2_hardness").val());
+			to_send['waist_hip_ratio']=f1;
+			to_send['bmi']=f2;
+			to_send['lymph_removed']=f3;
+			to_send['dash_score']=f4;
+			to_send['bc_receptor']=f5;
+			to_send['surgery_type']=f6;
+			to_send['ss2_hardness']=f7;
+		}
+		$( function() {
+			$("#submit").click(function() {
+				var appdir='/prediction';
+				update_var();
+				$.ajax({
+					type: "POST",
+					url:server+appdir,
+					data: JSON.stringify(to_send),
+					dataType: 'json'
+				})
+				.done(function(data) {
+					console.log(data);
+					$('#result').val(data['result']);
+				});
+			});
+		});
+
+	</script>
+
+
+</head>
+
+<body>
+
+	<button class="tablink" onclick="openPage('Intro')" id="defaultOpen">Introduction</button>
+	<button class="tablink" onclick="openPage('Submission')">Predictor</button>
+
+
+	<div id="Intro" class="tabcontent">
+		<h1>Lymphedema prototype</h1>
+		<h3>What is Lymphedema?</h3>
+		
+		<p> Lymphedema refers to swelling that generally occurs in one of your arms or legs as a result of blockage in the lymphatic system. It is most commonly caused by the removal of or damage to your lymph nodes as a part of cancer treatment.</p>
+		<a href="https://www.mayoclinic.org/diseases-conditions/lymphedema/symptoms-causes/syc-20374682#:~:text=Lymphedema%20refers%20to%20swelling%20that,a%20part%20of%20cancer%20treatment." target="_blank" >Learn more about lymphedema here</a>
+		<h3>About our project</h3>
+		<p>The aim of our project is to use machine learning to help detect secondary lymphedema based on given symptoms.</p>
+
+	</div>
+
+	<div id="Submission" class="tabcontent" style="display:none">
+		<h1>Lymphedema prediction page prototype</h1>
+
+
+		<!--<form action="http://127.0.0.1:5001/prediction" method="POST">-->
+			<h4>Enter the necessary informations below</h4>
+			<label for="bmi">Enter your bmi: </label>
+			<input type="number" name="bmi" id="bmi">
+			<br>
+			<br>
+			<label for="waist_hip_ratio">Enter your wait to hip ratio: </label>
+			<input type="number" name="waist_hip_ratio" id="waist_hip_ratio">
+			<br>
+			<br>
+			<label for="lymph_removed">Number of lymph nodes removed: </label>
+			<input type="number" name="lymph_removed" id="lymph_removed">
+			<br>
+			<br>
+			<label for="dash_score">Enter your DASH score: </label>
+			<input type="number" name="dash_score" id="dash_score">
+			<br>
+			<br>
+			<label for="bc_receptor">Bc receptor: </label>
+			<input type="number" name="bc_receptor" id="bc_receptor">
+			<br>
+			<br>
+			<label for="surgery_type">Types of surgery: </label>
+			<input type="number" name="surgery_type" id="surgery_type">
+			<br>
+			<br>
+			<label for="ss2_hardness">SS2: Hardness/ diffieculty finding shirts that fits: </label>
+			<input type="number" name="ss2_hardness" id="ss2_hardness">
+			<br>
+			<br>
+
+
+
+
+			<p>ignore below part-  to be removed/changed</p>
+			<label >To what degree are you experiencing symptom 1?</label>
+			<input type="radio" id="1" name="symptom_1" value="1">
+			<label for="1" class="radio">1</label>
+			<input type="radio" id="2" name="symptom_1" value="2">
+			<label for="2" class="radio">2</label>
+			<input type="radio" id="3" name="symptom_1" value="3">
+			<label for="3" class="radio">3</label>
+			<br>
+			<br>
+			<label for="other">Are you experiencing any of these other symptoms?</label>
+			<select id="other" name="other">
+				<option value="none">None</option>
+				<option value="option1">Option 1</option>
+				<option value="option2">Option 2</option>
+				<option value="option3">Option 3</option>
+
+			</select>
+
+			<br>
+			<br>
+			<button  class="submit" id="submit">Submit</button>
+		<!--</form>-->
+
+			<br>
+		<!--<p id="result">Your age (testing response) : </p>-->
+			<label>(testing result response):</label><input id="result" type="number"/><br/>
+
+	</div>
+
+	<script>
+		function openPage(pageName,elmnt,color) {
+		  var i, tabcontent, tablinks;
+		  tabcontent = document.getElementsByClassName("tabcontent");
+		  for (i = 0; i < tabcontent.length; i++) {
+			tabcontent[i].style.display = "none";
+		  }
+		  tablinks = document.getElementsByClassName("tablink");
+		  for (i = 0; i < tablinks.length; i++) {
+			tablinks[i].style.backgroundColor = "";
+		  }
+		  document.getElementById(pageName).style.display = "block";
+
+		}
+		// Get the element with id="defaultOpen" and click on it
+		document.getElementById("defaultOpen").click();
+	</script>
+
+
+</body>
+</html>
