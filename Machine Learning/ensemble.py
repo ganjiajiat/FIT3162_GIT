@@ -9,13 +9,14 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import VotingClassifier
 from sklearn.feature_selection import RFE
+from sklearn.tree import DecisionTreeClassifier
  
 # get a voting ensemble of models
 def get_voting():
     # define the base models
     models = list()
     models.append(('Logistic Regression', LogisticRegression(random_state=1, max_iter=1000)))
-    models.append(('SVC - Polynomial', SVC(kernel='poly')))
+    models.append(('SVC - Linear', SVC(kernel='linear')))
     models.append(('Naive Bayes', GaussianNB()))
      # define the voting ensemble
     ensemble = VotingClassifier(estimators=models, voting='hard')
@@ -25,7 +26,7 @@ def get_voting():
 def get_models():
     models = dict()
     models['Logistic Regression'] = LogisticRegression(random_state=1, max_iter=1000)
-    models['SVC - Polynomial'] = SVC(kernel='poly')
+    models['SVC - Linear'] = SVC(kernel='linear')
     models['Naive Bayes'] = GaussianNB()
     models['hard_voting'] = get_voting()
     return models
