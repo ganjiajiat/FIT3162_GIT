@@ -34,12 +34,7 @@ def prediction():
 # model goes here, change function name as desired
 def calculation(bmi, waist_to_hip_ratio, bc_receptor, types_of_surgery, num_lymph_nodes_removed, ss2, dash_score):
     classifier = load("classifier.mdl")
-    return classifier.predict(
-        pd.DataFrame(
-           data=[[bmi, waist_to_hip_ratio, bc_receptor, types_of_surgery, num_lymph_nodes_removed, ss2, dash_score]],
-           columns = ['BMI', 'Waist to hip datio', 'BC receptor', 'Types of surgery', 'Number of lymph nodes removed', 'SS2: Hardness/ difficulty finding shirts that fits', 'DASH score'] 
-        )
-    )[0]
+    return classifier.predict_proba([[bmi, waist_to_hip_ratio, bc_receptor, types_of_surgery, num_lymph_nodes_removed, ss2, dash_score]])[0,0]
 
 def dummy_calculation(age):
     return age+10
