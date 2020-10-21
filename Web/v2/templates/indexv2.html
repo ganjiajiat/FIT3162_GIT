@@ -97,11 +97,13 @@
 		{
 			var f1 = parseFloat($("#waist_hip_ratio").val());
 			var f2 = parseFloat($("#bmi").val());
-			var f3 = parseFloat($("#lymph_removed").val());
+
+			var f3 =parseFloat($("input[name=lymph_removed]:checked").val());
+
 			var f4 = parseFloat($("#dash_score").val());
-			var f5 = parseFloat($("#bc_receptor").val());
+			var f5 = parseFloat($("input[name=bc_receptor]:checked").val());
 			var f6 = parseFloat($("#surgery_type").val());
-			var f7 = parseFloat($("#ss2_hardness").val());
+			var f7 = parseFloat($("input[name=ss2_hardness]:checked").val());
 			to_send['waist_hip_ratio']=f1;
 			to_send['bmi']=f2;
 			to_send['lymph_removed']=f3;
@@ -163,72 +165,57 @@
 
 		<form  class="form" method="POST">
 		<h4>Enter the necessary informations below</h4>
-		<label for="bmi">Enter your bmi: </label>
-		<input type="number" name="bmi" id="bmi" min="12" max="35" >
+		<label for="bmi">Enter your bmi (0.00 to 50.00): </label>
+		<input type="number" name="bmi" id="bmi" min="0" max="50" step="0.01">
 		<br>
 		<br>
-		<label for="waist_hip_ratio">Enter your waist to hip ratio: </label>
-		<input type="number" name="waist_hip_ratio" id="waist_hip_ratio">
+		<label for="waist_hip_ratio">Enter your waist to hip ratio (0.00 to 1.00): </label>
+		<input type="number" name="waist_hip_ratio" id="waist_hip_ratio" min="0" max="1" step="0.01">
 		<br>
 		<br>
 		<label >Number of lymph nodes removed:</label>
-		<input type="radio" id="lm0" name="lymph_removed" value="0">
-		<label for="lm0" class="radio">0</label>
 		<input type="radio" id="lm1" name="lymph_removed" value="1">
-		<label for="lm1" class="radio">1</label>
+		<label for="lm1" class="radio">Less than 10</label>
 		<input type="radio" id="lm2" name="lymph_removed" value="2">
-		<label for="lm2" class="radio">2</label>
-		<input type="radio" id="lm3" name="lymph_removed" value="3">
-		<label for="lm3" class="radio">3</label>
+		<label for="lm2" class="radio">More than 10</label>
 
 		<br>
 		<br>
-		<label for="dash_score">Enter your DASH score: </label>
-		<input type="number" name="dash_score" id="dash_score">
-		<br>
-		<br>
-		<label for="bc_receptor">Bc receptor: </label>
-		<input type="number" name="bc_receptor" id="bc_receptor">
-		<br>
-		<br>
-		<label for="surgery_type">Types of surgery: </label>
-		<input type="number" name="surgery_type" id="surgery_type">
-		<br>
-		<br>
-		<label for="ss2_hardness">SS2: Hardness/ diffieculty finding shirts that fits: </label>
-		<input type="number" name="ss2_hardness" id="ss2_hardness">
+		<label for="dash_score">Enter your DASH score (0.00 to 100.00): </label>
+		<input type="number" name="dash_score" id="dash_score" min="0" max="100" step="0.01">
 		<br>
 		<br>
 
-
-
-
-		<p>ignore below part-  to be removed/changed</p>
-		<label >To what degree are you experiencing symptom 1?</label>
-		<input type="radio" id="1" name="symptom_1" value="1">
-		<label for="1" class="radio">1</label>
-		<input type="radio" id="2" name="symptom_1" value="2">
-		<label for="2" class="radio">2</label>
-		<input type="radio" id="3" name="symptom_1" value="3">
-		<label for="3" class="radio">3</label>
+		<label >BC receptor type:</label>
+		<input type="radio" id="bc_rec1" name="bc_receptor" value="1">
+		<label for="bc_rec1" class="radio">Positive hormone receptor</label>
+		<input type="radio" id="bc_rec2" name="bc_receptor" value="2">
+		<label for="bc_rec2" class="radio">Triple negative</label>
 		<br>
 		<br>
-		<label for="other">Are you experiencing any of these other symptoms?</label>
-		<select id="other" name="other">
-			<option value="none">None</option>
-			<option value="option1">Option 1</option>
-			<option value="option2">Option 2</option>
-			<option value="option3">Option 3</option>
 
+		<label for="surgery_type">Types of surgery:</label>
+		<select id="surgery_type" name="surgery_type">
+			<option value="1">Mastectomy</option>
+			<option value="2">Lumpectomy</option>
+			<option value="3">Mastectomy/Lumpectomy</option>
 		</select>
+		<br>
+		<br>
+		<label>SS2: Hardness/ difficulty finding shirts that fits: </label>
+		<input type="radio" id="diff1" name="ss2_hardness" value="1">
+		<label for="diff1" class="radio">Yes</label>
+		<input type="radio" id="diff2" name="ss2_hardness" value="2">
+		<label for="diff2" class="radio">No</label>
+		<br>
 
 		<br>
 		<br>
 		<button  class="submit" id="submit">Submit</button>
-		<label>(testing result response):</label><input id="result" type="number"/><br/>
-		</form>
 
+		</form>
 			<br>
+		<label>Probability that the symptoms are indicating Lymphedema:</label><input id="result" type="number"/><br/>
 		<!--<p id="result">Your age (testing response) : </p>-->
 
 
