@@ -16,19 +16,19 @@ def get_voting():
     # define the base models
     models = list()
     models.append(('Logistic Regression', LogisticRegression(random_state=1, max_iter=1000)))
-    models.append(('SVC - Linear', SVC(kernel='linear')))
+    models.append(('SVC - Linear', SVC(kernel='linear', probability=True)))
     models.append(('Naive Bayes', GaussianNB()))
      # define the voting ensemble
-    ensemble = VotingClassifier(estimators=models, voting='hard')
+    ensemble = VotingClassifier(estimators=models, voting='soft')
     return ensemble
  
 # get a list of models to evaluate
 def get_models():
     models = dict()
     models['Logistic Regression'] = LogisticRegression(random_state=1, max_iter=1000)
-    models['SVC - Linear'] = SVC(kernel='linear')
+    models['SVC - Linear'] = SVC(kernel='linear', probability=True)
     models['Naive Bayes'] = GaussianNB()
-    models['hard_voting'] = get_voting()
+    models['Soft Voting'] = get_voting()
     return models
  
 
