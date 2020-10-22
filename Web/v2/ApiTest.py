@@ -12,7 +12,7 @@ def root():
 @app.route("/prediction", methods=["GET","POST"])
 def prediction():
     req = request.form
-    #print(req)
+    print(req)
     #age = int(request.form.get("age"))
     #print(age)
     for key in req.keys():
@@ -29,13 +29,16 @@ def prediction():
     dash_score = data_dic['dash_score']
     ss2 = data_dic['ss2_hardness']
 
-    #print('val1',bmi)
-    #result=str(dummy_calculation(bmi))
-    result=str(calculation(bmi, waist_to_hip_ratio, bc_receptor, types_of_surgery, num_lymph_nodes_removed, ss2, dash_score))
-    #return render_template('index.html',age=result)
-
-    resp_dic = {'result': result, 'msg': 'result performed'}
-    resp = jsonify(resp_dic)
+    if bmi and waist_to_hip_ratio and bc_receptor and types_of_surgery and num_lymph_nodes_removed and dash_score and ss2:
+        #print('val1',bmi)
+        #result=str(dummy_calculation(bmi))
+        result=100*calculation(bmi, waist_to_hip_ratio, bc_receptor, types_of_surgery, num_lymph_nodes_removed, ss2, dash_score)
+        result =str(round(result,1))
+        resp_dic = {'result': result, 'msg': 'result performed'}
+        resp = jsonify(resp_dic)
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
+    resp = jsonify({'error': 'Missing data!'})
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
