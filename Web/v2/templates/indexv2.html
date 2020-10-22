@@ -6,7 +6,14 @@
 	body, html {
   	height: 100%;
   	margin: 0;
-
+	}
+	input[type='number'] {
+    -moz-appearance:textfield;
+	}
+	input[type=number]::-webkit-inner-spin-button,
+	input[type=number]::-webkit-outer-spin-button {
+    	-webkit-appearance: none;
+    margin: 0;
 	}
 
 	h1 {
@@ -31,13 +38,31 @@
 	margin-right: 150px;
 	font-size: 18px;
 	}
+	p.result{
+	margin-left: 0px;
+	margin-right: 0px;
+	display: inline;
+	font-size: 21px;
+	}
 	label{
 	margin-left: 200px;
 	font-size: 18px;
 	}
+	.alert{
+	margin: 0 auto;
+	align-items: center;
+	text-align: center;
+	background:BlanchedAlmond;
+	width:1000px;
+	height:70px;
+	border: 3px solid green;
+	}
 	label.radio{
 	margin-left: 0px;
 	font-size: 18px;
+	}
+	.final{
+	font-size: 21px;
 	}
 	a{
 	margin-left: 200px;
@@ -124,9 +149,16 @@
 						dataType: 'json'
 					})
 				.done(function(data) {
+					if (data.error) {
+						$('#errorAlert').text(data.error).show();
+						$('#Alert').hide();
+					}
+					else {
+						$('#Alert').show();
+						$('#result').text(data['result']);
+						$('#errorAlert').hide();
+					}
 
-					console.log(data);
-					$('#result').val(data['result']);
 
 				});
 
@@ -156,7 +188,11 @@
 		<a href="https://www.mayoclinic.org/diseases-conditions/lymphedema/symptoms-causes/syc-20374682#:~:text=Lymphedema%20refers%20to%20swelling%20that,a%20part%20of%20cancer%20treatment." target="_blank" >Learn more about lymphedema here</a>
 		<h3>About our project</h3>
 		<p>The aim of our project is to use machine learning to help detect secondary lymphedema based on given symptoms.</p>
-
+		<br>
+		<br>
+		<br>
+		<br>
+		<p><b>Disclaimer: This is a research project, do consult a professional for an accurate diagnosis.</b></p>
 	</div>
 
 	<div id="Submission" class="tabcontent" style="display:none">
@@ -178,7 +214,6 @@
 		<label for="lm1" class="radio">Less than 10</label>
 		<input type="radio" id="lm2" name="lymph_removed" value="2">
 		<label for="lm2" class="radio">More than 10</label>
-
 		<br>
 		<br>
 		<label for="dash_score">Enter your DASH score (0.00 to 100.00): </label>
@@ -214,8 +249,12 @@
 		<button  class="submit" id="submit">Submit</button>
 
 		</form>
-			<br>
-		<label>Probability that the symptoms are indicating Lymphedema:</label><input id="result" type="number"/><br/>
+		<br>
+		<div id="Alert" class="alert" role="alert" style="display:none;">
+		<label class="final">Probability that the symptoms are indicating Lymphedema: </label><p id="result" class="result"></p><p class="result">%</p>
+		</div>
+		<div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;"></div>
+
 		<!--<p id="result">Your age (testing response) : </p>-->
 
 
