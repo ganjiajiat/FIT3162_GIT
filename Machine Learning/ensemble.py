@@ -1,4 +1,3 @@
-from sklearn.model_selection import cross_val_score
 import pandas as pd
 import numpy as np
 from sklearn.svm import SVC
@@ -9,7 +8,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import VotingClassifier
 from sklearn.feature_selection import RFE
-from sklearn.tree import DecisionTreeClassifier
  
 # get a voting ensemble of models
 def get_voting():
@@ -49,8 +47,6 @@ def run_experiment(x, y, clf, n_folding_repeats=250):
 bcrl_study_data = pd.read_csv("BCRL Study UPM_Monash Uni.csv")
 
 # Step 2: Data preprocessing
-bcrl_study_data = bcrl_study_data.drop(["Race", "Religion", "Education", "Occupation", "Children"], axis=1)
-
 # Data imputation
 bcrl_study_data['BC receptor'].replace(3,np.NaN, inplace = True)
 bcrl_study_data['Number of lymph nodes removed'].replace(3,np.NaN, inplace = True)
@@ -59,33 +55,62 @@ bcrl_study_data = bcrl_study_data.drop(["ID"], axis=1)
 for feature in bcrl_study_data.columns.tolist():
     bcrl_study_data[feature].fillna(bcrl_study_data[feature].mode()[0], inplace=True)
 
-bcrl_x = bcrl_study_data.drop(["Group"], axis=1)
-bcrl_y = bcrl_study_data[["Group"]]
+accu_list1 = []
+sens_list1 = []
+spec_list1 = []
 
-X = bcrl_x
-y = bcrl_y['Group'] == 1
-num_feats = 7
+accu_list2 = []
+sens_list2 = []
+spec_list2 = []
 
-X_norm = MinMaxScaler().fit_transform(X)
-rfe_selector = RFE(estimator=LogisticRegression(), n_features_to_select=num_feats, step=10, verbose=5)
-rfe_selector.fit(X_norm, y)
-rfe_support = rfe_selector.get_support()
-rfe_feature = X.loc[:,rfe_support].columns.tolist()
+accu_list3 = []
+sens_list3 = []
+spec_list3 = []
 
-for feature in bcrl_x.columns.tolist():
-    if feature not in rfe_feature:
-        bcrl_x = bcrl_x.drop(feature, axis = 1)
-        
-metrics_format_str = "\n[{0}]\nAccuracy: {1}\nSensitivity: {2}\nSpecificity: {3}\n"
+accu_list4 = []
+sens_list4 = []
+spec_list4 = []
 
-X, y = bcrl_x, bcrl_y
-
-# get the models to evaluate
-models = get_models()
-# evaluate the models and store results
-results, names = list(), list()
-for name, model in models.items():
- 	scores = run_experiment(X, y, model)
- 	results.append(scores)
- 	names.append(name)
- 	print(metrics_format_str.format(name, scores[0], scores[1], scores[2]))
+for i in range(1, 20):
+    bcrl_x = bcrl_study_data.drop(["Group"], axis=1)
+    bcrl_y = bcrl_study_data[["Group"]]
+    
+    X = bcrl_x
+    y = bcrl_y['Group'] == 1
+    num_feats = i
+    
+    X_norm = MinMaxScaler().fit_transform(X)
+    rfe_selector = RFE(estimator=LogisticRegression(), n_features_to_select=num_feats, step=10, verbose=5)
+    rfe_selector.fit(X_norm, y)
+    rfe_support = rfe_selector.get_support()
+    rfe_feature = X.loc[:,rfe_support].columns.tolist()
+    
+    for feature in bcrl_x.columns.tolist():
+        if feature not in rfe_feature:
+            bcrl_x = bcrl_x.drop(feature, axis = 1)
+            
+    metrics_format_str = "\n[{0}]\nAccuracy: {1}\nSensitivity: {2}\nSpecificity: {3}\n"
+    
+    X, y = bcrl_x, bcrl_y
+    
+    # get the models to evaluate
+    models = get_models()
+    for name, model in models.items():
+        scores = run_experiment(X, y, model)
+        print(metrics_format_str.format(name, scores[0], scores[1], scores[2]))
+        if name == "Logistic Regression":
+            accu_list1.append(scores[0])
+            sens_list1.append(scores[1])
+            spec_list1.append(scores[2])
+        if name == "SVC - Linear":
+            accu_list2.append(scores[0])
+            sens_list2.append(scores[1])
+            spec_list2.append(scores[2])
+        if name == "Naive Bayes":
+            accu_list3.append(scores[0])
+            sens_list3.append(scores[1])
+            spec_list3.append(scores[2])
+        else:
+            accu_list4.append(scores[0])
+            sens_list4.append(scores[1])
+            spec_list4.append(scores[2])
