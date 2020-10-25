@@ -102,11 +102,11 @@ for i in range(1, 20):
             accu_list1.append(scores[0])
             sens_list1.append(scores[1])
             spec_list1.append(scores[2])
-        if name == "SVC - Linear":
+        elif name == "SVC - Linear":
             accu_list2.append(scores[0])
             sens_list2.append(scores[1])
             spec_list2.append(scores[2])
-        if name == "Naive Bayes":
+        elif name == "Naive Bayes":
             accu_list3.append(scores[0])
             sens_list3.append(scores[1])
             spec_list3.append(scores[2])
