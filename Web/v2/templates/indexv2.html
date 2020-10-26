@@ -108,6 +108,30 @@
 	.submit:hover {
   		background-color: #04BF2B;
 	}
+	select {
+	  font-size: 14px;
+	  width: 20%;
+	  padding: 14px 18px;
+	  border: none;
+	  border-radius: 3px;
+	  background-color: #f1f1f1;
+	}
+	input[type="number"]{
+	  width: 20%;
+	  padding: 12px 16px;
+	  border: none;
+	  border-radius: 3px;
+	  background-color: #f1f1f1;
+	}
+	.hide {
+	  display: none;
+	}
+
+	.dash_score_label:hover + .hide {
+	  display: block;
+	  color: red;
+	}
+
 	</style>
 
 	<script
@@ -120,22 +144,31 @@
 		var to_send = {'bmi':0,'waist_hip_ratio':0,'lymph_removed':0,'dash_score':0,'bc_receptor':0,'surgery_type':0,'ss2_hardness':0};
 		function update_var()
 		{
-			var f1 = parseFloat($("#waist_hip_ratio").val());
-			var f2 = parseFloat($("#bmi").val());
+			var waist_hip = parseFloat($("#waist_hip_ratio").val());
+			var bmi = parseFloat($("#bmi").val());
+			var num_children = parseFloat($("#num_children").val());
+			var lymph_removed =parseFloat($("input[name=lymph_removed]:checked").val());
+			var dash_score = parseFloat($("#dash_score").val());
+			var bc_receptor = parseFloat($("input[name=bc_receptor]:checked").val());
+			var surgery_type = parseFloat($("#surgery_type").val());
+			var ss2_hardness = parseFloat($("input[name=ss2_hardness]:checked").val());
+			var hypertension_diabetes = parseFloat($("input[name=hypertension_diabetes]:checked").val());
+			var ss1 = parseFloat($("input[name=ss1]:checked").val());
+			var h_therapy = parseFloat($("input[name=h_therapy]:checked").val());
+			var supplements = parseFloat($("input[name=supplements]:checked").val());
 
-			var f3 =parseFloat($("input[name=lymph_removed]:checked").val());
-
-			var f4 = parseFloat($("#dash_score").val());
-			var f5 = parseFloat($("input[name=bc_receptor]:checked").val());
-			var f6 = parseFloat($("#surgery_type").val());
-			var f7 = parseFloat($("input[name=ss2_hardness]:checked").val());
-			to_send['waist_hip_ratio']=f1;
-			to_send['bmi']=f2;
-			to_send['lymph_removed']=f3;
-			to_send['dash_score']=f4;
-			to_send['bc_receptor']=f5;
-			to_send['surgery_type']=f6;
-			to_send['ss2_hardness']=f7;
+			to_send['waist_hip_ratio']=waist_hip;
+			to_send['bmi']=bmi;
+			to_send['lymph_removed']=lymph_removed;
+			to_send['dash_score']=dash_score;
+			to_send['bc_receptor']=bc_receptor;
+			to_send['surgery_type']=surgery_type;
+			to_send['ss2']=ss2_hardness;
+			to_send['num_children']=num_children;
+			to_send['hypertension_diabetes']=hypertension_diabetes;
+			to_send['ss1']=ss1;
+			to_send['h_therapy']=h_therapy;
+			to_send['supplements']=supplements;
 		}
 		$(document).ready(function() {
 
@@ -200,53 +233,84 @@
 
 
 		<form  class="form" method="POST">
-		<h4>Enter the necessary informations below</h4>
-		<label for="bmi">Enter your bmi (0.00 to 50.00): </label>
-		<input type="number" name="bmi" id="bmi" min="0" max="50" step="0.01">
-		<br>
-		<br>
-		<label for="waist_hip_ratio">Enter your waist to hip ratio (0.00 to 1.00): </label>
-		<input type="number" name="waist_hip_ratio" id="waist_hip_ratio" min="0" max="1" step="0.01">
-		<br>
-		<br>
-		<label >Number of lymph nodes removed:</label>
-		<input type="radio" id="lm1" name="lymph_removed" value="1">
-		<label for="lm1" class="radio">Less than 10</label>
-		<input type="radio" id="lm2" name="lymph_removed" value="2">
-		<label for="lm2" class="radio">More than 10</label>
-		<br>
-		<br>
-		<label for="dash_score">Enter your DASH score (0.00 to 100.00): </label>
-		<input type="number" name="dash_score" id="dash_score" min="0" max="100" step="0.01">
-		<br>
-		<br>
+			<h4>Enter the necessary information below</h4>
+			<label for="bmi">Enter the number of children that you have: </label>
+			<input type="number" name="num_children" id="num_children">
+			<br>
+			<br>
+			<label for="bmi">Enter your bmi (0.00 to 50.00): </label>
+			<input type="number" name="bmi" id="bmi" min="0" max="50" step="0.01">
+			<br>
+			<br>
+			<label for="waist_hip_ratio">Enter your waist to hip ratio (0.00 to 1.00): </label>
+			<input type="number" name="waist_hip_ratio" id="waist_hip_ratio" min="0" max="1" step="0.01">
+			<br>
+			<br>
+			<label >Number of lymph nodes removed:</label>
+			<input type="radio" id="lm1" name="lymph_removed" value="1">
+			<label for="lm1" class="radio">Less than 10</label>
+			<input type="radio" id="lm2" name="lymph_removed" value="2">
+			<label for="lm2" class="radio">More than 10</label>
+			<br>
+			<br>
+			<label for="dash_score" id="dash_score_label">Enter your DASH(Disability of arms, shoulders and hands) score (0.00 to 100.00): </label>
+			<input type="number" name="dash_score" id="dash_score" min="0" max="100" step="0.01">
+			<br>
+			<br>
 
-		<label >BC receptor type:</label>
-		<input type="radio" id="bc_rec1" name="bc_receptor" value="1">
-		<label for="bc_rec1" class="radio">Positive hormone receptor</label>
-		<input type="radio" id="bc_rec2" name="bc_receptor" value="2">
-		<label for="bc_rec2" class="radio">Triple negative</label>
-		<br>
-		<br>
+			<label >B Cell receptor type:</label>
+			<input type="radio" id="bc_rec1" name="bc_receptor" value="1">
+			<label for="bc_rec1" class="radio">Positive hormone receptor</label>
+			<input type="radio" id="bc_rec2" name="bc_receptor" value="2">
+			<label for="bc_rec2" class="radio">Triple negative</label>
+			<br>
+			<br>
 
-		<label for="surgery_type">Types of surgery:</label>
-		<select id="surgery_type" name="surgery_type">
-			<option value="1">Mastectomy</option>
-			<option value="2">Lumpectomy</option>
-			<option value="3">Mastectomy/Lumpectomy</option>
-		</select>
-		<br>
-		<br>
-		<label>SS2: Hardness/ difficulty finding shirts that fits: </label>
-		<input type="radio" id="diff1" name="ss2_hardness" value="1">
-		<label for="diff1" class="radio">Yes</label>
-		<input type="radio" id="diff2" name="ss2_hardness" value="2">
-		<label for="diff2" class="radio">No</label>
-		<br>
+			<label for="surgery_type">Types of surgery:</label>
+			<select id="surgery_type" name="surgery_type">
+				<option value="1">Mastectomy</option>
+				<option value="2">Lumpectomy</option>
+				<option value="3">Mastectomy/Lumpectomy</option>
+			</select>
+			<br>
+			<br>
+			<label>Hypertensionn & diabetes </label>
+			<input type="radio" id="hypertension_diabetes1" name="hypertension_diabetes" value="1">
+			<label for="hypertension_diabetes1" class="radio">Yes</label>
+			<input type="radio" id="hypertension_diabetes2" name="hypertension_diabetes" value="2">
+			<label for="hypertension_diabetes2" class="radio">No</label>
+			<br>
+			<br>
+			<label>Heaviness/tightness </label>
+			<input type="radio" id="ss1_1" name="ss1" value="1">
+			<label for="ss1_1" class="radio">Yes</label>
+			<input type="radio" id="ss1_2" name="ss1" value="2">
+			<label for="ss1_2" class="radio">No</label>
+			<br>
+			<br>
+			<label>Hardness/ difficulty finding shirts that fits </label>
+			<input type="radio" id="diff1" name="ss2_hardness" value="1">
+			<label for="diff1" class="radio">Yes</label>
+			<input type="radio" id="diff2" name="ss2_hardness" value="2">
+			<label for="diff2" class="radio">No</label>
+			<br>
+			<br>
+			<label>Any hormonal therapy? </label>
+			<input type="radio" id="h_therapy1" name="h_therapy" value="1">
+			<label for="h_therapy1" class="radio">Yes</label>
+			<input type="radio" id="h_therapy2" name="h_therapy" value="2">
+			<label for="h_therapy2" class="radio">No</label>
+			<br><br>
+			<label>Did you take any supplementation? </label>
+			<input type="radio" id="supplements1" name="supplements" value="1">
+			<label for="supplements1" class="radio">Yes</label>
+			<input type="radio" id="supplements2" name="supplements" value="2">
+			<label for="supplements2" class="radio">No</label>
+			<br>
 
-		<br>
-		<br>
-		<button  class="submit" id="submit">Submit</button>
+			<br>
+			<br>
+			<button  class="submit" id="submit">Submit</button>`
 
 		</form>
 		<br>
