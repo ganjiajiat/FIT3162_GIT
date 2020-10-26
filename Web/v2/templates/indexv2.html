@@ -116,7 +116,7 @@
 			crossorigin="anonymous">
 	</script>
 	<script type="text/javascript">
-		var server = "http://127.0.0.1:5001";
+		var server = "https://cl2vf5z6ab.execute-api.us-east-1.amazonaws.com/test/predict-le-prob";
 		var to_send = {'bmi':0,'waist_hip_ratio':0,'lymph_removed':0,'dash_score':0,'bc_receptor':0,'surgery_type':0,'ss2_hardness':0};
 		function update_var()
 		{
@@ -140,11 +140,11 @@
 		$(document).ready(function() {
 
 			$('form').on('submit', function(event) {
-				var appdir='/prediction';
+				//var appdir='/prediction';
 				update_var();
 				$.ajax({
 						type: "POST",
-						url:server+appdir,
+						url:server,
 						data: JSON.stringify(to_send),
 						dataType: 'json'
 					})
