@@ -69,7 +69,6 @@
 	font-size: 18px;
 	}
 
-
 	* {box-sizing: border-box}
 	/* Style tab links */
 	.tablink {
@@ -123,15 +122,6 @@
 	  border-radius: 3px;
 	  background-color: #f1f1f1;
 	}
-	.hide {
-	  display: none;
-	}
-
-	.dash_score_label:hover + .hide {
-	  display: block;
-	  color: red;
-	}
-
 	</style>
 
 	<script
@@ -191,16 +181,10 @@
 						$('#result').text(data['result']);
 						$('#errorAlert').hide();
 					}
-
-
 				});
-
 				event.preventDefault();
-
 			});
-
 		});
-
 
 	</script>
 
