@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Lymphedema prediction prototype</title>
+	<!--css styling-->
 	<style>
 	body, html {
   	height: 100%;
@@ -129,11 +130,12 @@
 			integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
 			crossorigin="anonymous">
 	</script>
+	<!--javascript, jquery together with ajax to send the form data to the api server -->
 	<script type="text/javascript">
 		var server = "http://127.0.0.1:5001";
 		var to_send = {'bmi':0,'waist_hip_ratio':0,'lymph_removed':0,'dash_score':0,'bc_receptor':0,'surgery_type':0,'ss2':0,'children':0,'hypertension_diabetes':0,'ss1':0,'h_therapy':0,'supplements':0};
-		function update_var()
-		{
+		//function to populate to_send variable with form data
+		function update_var(){
 			var waist_hip = parseFloat($("#waist_hip_ratio").val());
 			var bmi = parseFloat($("#bmi").val());
 			var lymph_removed =parseFloat($("input[name=lymph_removed]:checked").val());
@@ -195,7 +197,6 @@
 	<button class="tablink" onclick="openPage('Intro')" id="defaultOpen">Introduction</button>
 	<button class="tablink" onclick="openPage('Submission')">Predictor</button>
 
-
 	<div id="Intro" class="tabcontent">
 		<h1>Lymphedema prototype</h1>
 		<h3>What is Lymphedema?</h3>
@@ -214,9 +215,8 @@
 	<div id="Submission" class="tabcontent" style="display:none">
 		<h1>Lymphedema prediction page prototype</h1>
 
-
 		<form  class="form" method="POST">
-			<h4>Enter the necessary information below</h4>
+			<h4>Enter the necessary information below and click submit to know the probability that you have Lymphedema</h4>
 			<br>
 			<label for="bmi">Enter your bmi (0.00 to 50.00): </label>
 			<input type="number" name="bmi" id="bmi" min="0" max="50" step="0.01">
@@ -235,7 +235,6 @@
 			<label for="lm1" class="radio">Less than 10</label>
 			<input type="radio" id="lm2" name="lymph_removed" value="2">
 			<label for="lm2" class="radio">More than 10</label>
-
 			<br>
 			<br>
 			<label >B Cell receptor type:</label>
