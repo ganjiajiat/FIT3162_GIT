@@ -131,12 +131,11 @@
 	</script>
 	<script type="text/javascript">
 		var server = "http://127.0.0.1:5001";
-		var to_send = {'bmi':0,'waist_hip_ratio':0,'lymph_removed':0,'dash_score':0,'bc_receptor':0,'surgery_type':0,'ss2':0,'num_children':0,'hypertension_diabetes':0,'ss1':0,'h_therapy':0,'supplements':0};
+		var to_send = {'bmi':0,'waist_hip_ratio':0,'lymph_removed':0,'dash_score':0,'bc_receptor':0,'surgery_type':0,'ss2':0,'children':0,'hypertension_diabetes':0,'ss1':0,'h_therapy':0,'supplements':0};
 		function update_var()
 		{
 			var waist_hip = parseFloat($("#waist_hip_ratio").val());
 			var bmi = parseFloat($("#bmi").val());
-			var num_children = parseFloat($("#num_children").val());
 			var lymph_removed =parseFloat($("input[name=lymph_removed]:checked").val());
 			var dash_score = parseFloat($("#dash_score").val());
 			var bc_receptor = parseFloat($("input[name=bc_receptor]:checked").val());
@@ -146,6 +145,7 @@
 			var ss1 = parseFloat($("input[name=ss1]:checked").val());
 			var h_therapy = parseFloat($("input[name=h_therapy]:checked").val());
 			var supplements = parseFloat($("input[name=supplements]:checked").val());
+			var children = parseFloat($("input[name=children]:checked").val());
 
 			to_send['waist_hip_ratio']=waist_hip;
 			to_send['bmi']=bmi;
@@ -154,14 +154,13 @@
 			to_send['bc_receptor']=bc_receptor;
 			to_send['surgery_type']=surgery_type;
 			to_send['ss2']=ss2_hardness;
-			to_send['num_children']=num_children;
+			to_send['children']=children;
 			to_send['hypertension_diabetes']=hypertension_diabetes;
 			to_send['ss1']=ss1;
 			to_send['h_therapy']=h_therapy;
 			to_send['supplements']=supplements;
 		}
 		$(document).ready(function() {
-
 			$('form').on('submit', function(event) {
 				var appdir='/prediction';
 				update_var();
@@ -218,9 +217,6 @@
 
 		<form  class="form" method="POST">
 			<h4>Enter the necessary information below</h4>
-			<label for="bmi">Enter the number of children that you have: </label>
-			<input type="number" name="num_children" id="num_children">
-			<br>
 			<br>
 			<label for="bmi">Enter your bmi (0.00 to 50.00): </label>
 			<input type="number" name="bmi" id="bmi" min="0" max="50" step="0.01">
@@ -230,18 +226,18 @@
 			<input type="number" name="waist_hip_ratio" id="waist_hip_ratio" min="0" max="1" step="0.01">
 			<br>
 			<br>
+			<label for="dash_score" id="dash_score_label">Enter your DASH(Disability of arms, shoulders and hands) score (0.00 to 100.00): </label>
+			<input type="number" name="dash_score" id="dash_score" min="0" max="100" step="0.01">
+			<br>
+			<br>
 			<label >Number of lymph nodes removed:</label>
 			<input type="radio" id="lm1" name="lymph_removed" value="1">
 			<label for="lm1" class="radio">Less than 10</label>
 			<input type="radio" id="lm2" name="lymph_removed" value="2">
 			<label for="lm2" class="radio">More than 10</label>
-			<br>
-			<br>
-			<label for="dash_score" id="dash_score_label">Enter your DASH(Disability of arms, shoulders and hands) score (0.00 to 100.00): </label>
-			<input type="number" name="dash_score" id="dash_score" min="0" max="100" step="0.01">
-			<br>
-			<br>
 
+			<br>
+			<br>
 			<label >B Cell receptor type:</label>
 			<input type="radio" id="bc_rec1" name="bc_receptor" value="1">
 			<label for="bc_rec1" class="radio">Positive hormone receptor</label>
@@ -249,7 +245,6 @@
 			<label for="bc_rec2" class="radio">Triple negative</label>
 			<br>
 			<br>
-
 			<label for="surgery_type">Types of surgery:</label>
 			<select id="surgery_type" name="surgery_type">
 				<option value="1">Mastectomy</option>
@@ -258,7 +253,14 @@
 			</select>
 			<br>
 			<br>
-			<label>Hypertensionn & diabetes </label>
+			<label>Do you have any children? </label>
+			<input type="radio" id="children1" name="children" value="1">
+			<label for="children1" class="radio">Yes</label>
+			<input type="radio" id="children2" name="children" value="2">
+			<label for="children2" class="radio">No</label>
+			<br>
+			<br>
+			<label>Do you have hypertension & diabetes? </label>
 			<input type="radio" id="hypertension_diabetes1" name="hypertension_diabetes" value="1">
 			<label for="hypertension_diabetes1" class="radio">Yes</label>
 			<input type="radio" id="hypertension_diabetes2" name="hypertension_diabetes" value="2">
@@ -284,7 +286,8 @@
 			<label for="h_therapy1" class="radio">Yes</label>
 			<input type="radio" id="h_therapy2" name="h_therapy" value="2">
 			<label for="h_therapy2" class="radio">No</label>
-			<br><br>
+			<br>
+			<br>
 			<label>Did you take any supplementation? </label>
 			<input type="radio" id="supplements1" name="supplements" value="1">
 			<label for="supplements1" class="radio">Yes</label>
@@ -303,12 +306,10 @@
 		</div>
 		<div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;"></div>
 
-		<!--<p id="result">Your age (testing response) : </p>-->
-
-
 	</div>
 
 	<script>
+		// Function to switch between the tabs, i.e, intro and prediction
 		function openPage(pageName,elmnt,color) {
 		  var i, tabcontent, tablinks;
 		  tabcontent = document.getElementsByClassName("tabcontent");
