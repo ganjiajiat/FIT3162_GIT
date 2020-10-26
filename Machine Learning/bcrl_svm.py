@@ -68,18 +68,18 @@ if __name__ == "__main__":
     bcrl_x = bcrl_study_data.drop(["Group"], axis=1)
     bcrl_y = bcrl_study_data[["Group"]]
     
-    method_name = "SVM (Linear Kernel)" # Specify classifer name
+    method_name = "SVM (Linear Kernel)" # Specify classifier name
     classifier = SVC(kernel='linear') # Specify Scikit Learn machine learning classifiers
     
     ###########################################################################
-    ##### Run test for Scenario 1: Support Vector Machine (Linear Kernal) #####
+    ##### Run test for Scenario 1: Support Vector Machine (Linear Kernel) #####
     ###########################################################################
     accu, sens, spec = run_experiment(bcrl_x,bcrl_y, classifier)
-    print("Scenario 1: Support Vector Machine (Linear Kernal)")
+    print("Scenario 1: Support Vector Machine (Linear Kernel)")
     print_result(method_name, accu, sens, spec)
     
     ##########################################################################################################
-    #####  Run test for Scenario 2: Recursive Feature Selection + Support Vector Machine (Linear Kernal) #####
+    #####  Run test for Scenario 2: Recursive Feature Selection + Support Vector Machine (Linear Kernel) #####
     ##########################################################################################################
    
     # Run feature selection (RFE) to select top 12 features from 30 features
@@ -98,5 +98,5 @@ if __name__ == "__main__":
             bcrl_x = bcrl_x.drop(feature, axis = 1)
     
     accu, sens, spec = run_experiment(bcrl_x,bcrl_y, classifier)
-    print("Scenario 2: Recursive Feature Selection + Support Vector Machine (Linear Kernal)")
+    print("Scenario 2: Recursive Feature Selection + Support Vector Machine (Linear Kernel)")
     print_result(method_name, accu, sens, spec)
